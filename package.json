@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "npm install && node ./bin/www"
+    "start": "node ./bin/www",
+    "postinstall": "npm install"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
