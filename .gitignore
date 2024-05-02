@@ -1,0 +1,31 @@
+# Ignore les fichiers de configuration système
+.DS_Store
+Thumbs.db
+
+# Ignore les fichiers de logs
+*.log
+
+# Ignore les dossiers spécifiques à certains environnements de développement
+.env
+
+# Ignore les modules Node.js installés
+node_modules/
+
+# Ignore les fichiers de sauvegarde de l'éditeur
+*.swp
+*~
+
+# Ignore les fichiers de build générés
+/build
+
+# Ignore les fichiers d'installation de dépendances
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Ignore les fichiers de configuration locale
+.env.local
+.env.*.local
+
+# Ignore les fichiers de cache de dépendances
+.cache/
