@@ -6,7 +6,6 @@
     const swaggerUi = require('swagger-ui-express');
     const sequelize = require('./config/database');
     const swaggerDocs = require('./config/swaggerConfig'); // Importez la configuration Swagger
-    const Character = require('./models/Character');
 
 
     // Routers
