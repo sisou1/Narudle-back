@@ -1,5 +1,3 @@
-// app.js
-
 const express = require('express');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
@@ -15,7 +13,6 @@ const charactersRouter = require('./routes/character');
 const tryRouter = require('./routes/try');
 const gameRouter = require('./routes/game');
 
-
 const app = express();
 
 // Utiliser cors
@@ -26,6 +23,15 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+// Middleware pour gérer les requêtes HEAD
+app.use((req, res, next) => {
+    if (req.method === 'HEAD') {
+        res.status(200).end();
+    } else {
+        next();
+    }
+});
 
 // Routes
 app.use('/', indexRouter);
