@@ -1,8 +1,8 @@
+// routes/character.js
+
 const express = require('express');
 const router = express.Router();
-const Character = require('../models/character');
-const sequelize = require('../config/database'); // Assurez-vous que le chemin est correct
-
+const Character = require('../models/character'); // Chemin correct vers le modèle Character
 
 /**
  * @swagger
@@ -10,6 +10,34 @@ const sequelize = require('../config/database'); // Assurez-vous que le chemin e
  *   name: Characters
  *   description: API pour gérer les personnages
  */
+
+/**
+ * @swagger
+ * /characters:
+ *   get:
+ *     summary: Récupérer tous les personnages
+ *     tags: [Characters]
+ *     responses:
+ *       200:
+ *         description: La liste des personnages
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Character'
+ */
+
+// Route pour récupérer tous les personnages
+router.get('/', async (req, res) => {
+    try {
+        const characters = await Character.findAll();
+        res.status(200).json(characters);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'An error occurred while fetching characters' });
+    }
+});
 
 /**
  * @swagger
@@ -39,6 +67,7 @@ const sequelize = require('../config/database'); // Assurez-vous que le chemin e
  *       500:
  *         description: Une erreur est survenue lors de la création du personnage
  */
+
 // Route POST pour ajouter un personnage
 router.post('/', async (req, res) => {
     try {
@@ -54,7 +83,5 @@ router.post('/', async (req, res) => {
         res.status(500).json({ message: 'Une erreur est survenue lors de la création du personnage.' });
     }
 });
-
-
 
 module.exports = router;

@@ -1,4 +1,4 @@
-// models/User.js
+// models/user.js
 
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/database');
@@ -19,6 +19,16 @@ User.init({
     mot_de_passe: {
         type: DataTypes.STRING,
         allowNull: false
+    },
+    createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: DataTypes.NOW
+    },
+    updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: DataTypes.NOW
     }
 }, {
     sequelize,

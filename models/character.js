@@ -1,3 +1,5 @@
+// models/character.js
+
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/database');
 
@@ -8,39 +10,39 @@ Character.init({
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
-        allowNull: false // Rend id non nullable
+        allowNull: false
     },
     name: {
         type: DataTypes.STRING,
-        allowNull: true // Rend name non nullable
+        allowNull: true
     },
     imageUrl: {
         type: DataTypes.STRING,
-        allowNull: true // Rend imageUrl non nullable
+        allowNull: true
     },
     genre: {
         type: DataTypes.STRING,
-        allowNull: true // Rend genre non nullable
+        allowNull: true
     },
     affiliations: {
         type: DataTypes.STRING,
-        allowNull: true // Rend affiliations non nullable
+        allowNull: true
     },
     rang: {
         type: DataTypes.STRING,
-        allowNull: true // Rend rang non nullable
+        allowNull: true
     },
     chakra: {
         type: DataTypes.STRING,
-        allowNull: true // Rend chakra non nullable
+        allowNull: true
     },
     attributs: {
         type: DataTypes.STRING,
-        allowNull: true // Rend attributs non nullable
+        allowNull: true
     },
     arc: {
         type: DataTypes.STRING,
-        allowNull: true // Rend arc non nullable
+        allowNull: true
     }
 }, {
     sequelize,

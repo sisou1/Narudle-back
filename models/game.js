@@ -1,9 +1,9 @@
-// models/Game.js
+// models/game.js
 
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/database');
-const User = require('./User'); // Importez le modèle User
-const Character = require('./Character'); // Importez le modèle Character
+const User = require('./user'); // Importez le modèle User
+const Character = require('./character'); // Importez le modèle Character
 
 class Game extends Model {}
 
