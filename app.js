@@ -3,6 +3,7 @@
 const express = require('express');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 const swaggerUi = require('swagger-ui-express');
 const sequelize = require('./config/database');
 const swaggerDocs = require('./config/swaggerConfig');
@@ -14,7 +15,11 @@ const charactersRouter = require('./routes/character');
 const tryRouter = require('./routes/try');
 const gameRouter = require('./routes/game');
 
+
 const app = express();
+
+// Utiliser cors
+app.use(cors());
 
 // Middleware
 app.use(logger('dev'));
