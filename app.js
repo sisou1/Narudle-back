@@ -44,7 +44,7 @@ app.use('/games', gameRouter);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // Sync models with database
-sequelize.sync({force:true}).then(() => {
+sequelize.sync({}).then(() => {
     console.log('Tables synchronisées avec succès.');
 }).catch(err => {
     console.error('Erreur lors de la synchronisation des tables :', err);
