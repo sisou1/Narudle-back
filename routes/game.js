@@ -1,8 +1,7 @@
-// routes/game.js
-
 const express = require('express');
 const router = express.Router();
 const Game = require('../models/game'); // Chemin correct vers le modèle Game
+const Character = require('../models/character'); // Chemin correct vers le modèle Character
 
 /**
  * @swagger
@@ -55,9 +54,6 @@ router.get('/', async (req, res) => {
  *               id_user:
  *                 type: integer
  *                 description: L'ID de l'utilisateur
- *               id_character:
- *                 type: integer
- *                 description: L'ID du personnage
  *     responses:
  *       201:
  *         description: Le game a été créé avec succès
@@ -67,16 +63,26 @@ router.get('/', async (req, res) => {
 
 // Route pour créer un nouveau Game
 router.post('/', async (req, res) => {
-    const { id_user, id_character } = req.body;
+    const { id_user } = req.body;
 
     try {
+        // Récupérer tous les personnages
+        const characters = await Character.findAll();
+        if (characters.length === 0) {
+            return res.status(500).json({ error: 'No characters found' });
+        }
+
+        // Choisir un personnage aléatoire
+        const randomCharacter = characters[Math.floor(Math.random() * characters.length)];
+
         // Créez un nouveau Game
         const newGame = await Game.create({
             id_user: id_user,
-            id_character: id_character
+            id_character: randomCharacter.id
         });
 
-        res.status(201).json(newGame);
+        // Retourner le nom du personnage choisi
+        res.status(201).json({ characterName: randomCharacter.name });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'An error occurred while creating the Game' });

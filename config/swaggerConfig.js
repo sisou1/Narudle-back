@@ -1,5 +1,3 @@
-// config/swaggerConfig.js
-
 const swaggerJSDoc = require('swagger-jsdoc');
 
 const swaggerOptions = {
@@ -116,6 +114,51 @@ const swaggerOptions = {
                             type: 'string',
                             format: 'date-time',
                             description: 'Date de mise à jour de l\'utilisateur'
+                        }
+                    }
+                }
+            }
+        },
+        paths: {
+            '/games': {
+                post: {
+                    summary: 'Ajouter un game',
+                    tags: ['Games'],
+                    requestBody: {
+                        required: true,
+                        content: {
+                            'application/json': {
+                                schema: {
+                                    type: 'object',
+                                    properties: {
+                                        id_user: {
+                                            type: 'integer',
+                                            description: 'L\'ID de l\'utilisateur'
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    responses: {
+                        201: {
+                            description: 'Le game a été créé avec succès',
+                            content: {
+                                'application/json': {
+                                    schema: {
+                                        type: 'object',
+                                        properties: {
+                                            characterName: {
+                                                type: 'string',
+                                                description: 'Le nom du personnage choisi'
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        500: {
+                            description: 'Une erreur est survenue lors de la création du game'
                         }
                     }
                 }
