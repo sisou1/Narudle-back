@@ -83,7 +83,8 @@ router.post('/', async (req, res) => {
         // Créez un nouveau Game
         const newGame = await Game.create({
             user: user,
-            id_character: randomCharacter.id
+            id_character: randomCharacter.id,
+            end: false // Initialement, la partie n'est pas terminée
         });
 
         // Retourner le nom du personnage choisi

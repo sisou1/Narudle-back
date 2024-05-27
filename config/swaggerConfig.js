@@ -70,23 +70,10 @@ const swaggerOptions = {
                             type: 'string',
                             format: 'date-time',
                             description: 'Date de création du jeu'
-                        }
-                    }
-                },
-                Try: {
-                    type: 'object',
-                    properties: {
-                        id: {
-                            type: 'integer',
-                            description: 'ID du try'
                         },
-                        id_game: {
-                            type: 'integer',
-                            description: 'ID du jeu'
-                        },
-                        id_character: {
-                            type: 'integer',
-                            description: 'ID du personnage'
+                        end: {
+                            type: 'boolean',
+                            description: 'Indique si la partie est terminée'
                         }
                     }
                 }

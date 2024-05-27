@@ -22,6 +22,11 @@ Game.init({
     date: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW
+    },
+    end: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false, // Par défaut, la partie n'est pas terminée
+        allowNull: false
     }
 }, {
     sequelize,
