@@ -46,14 +46,19 @@ router.get('/', async (req, res) => {
  *     tags: [Games]
  *     requestBody:
  *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               id_user:
- *                 type: integer
- *                 description: L'ID de l'utilisateur
+ *       content: {
+ *         application/json: {
+ *           schema: {
+ *             type: object,
+ *             properties: {
+ *               user: {
+ *                 type: string,
+ *                 description: "Nom de l'utilisateur"
+ *               }
+ *             }
+ *           }
+ *         }
+ *       }
  *     responses:
  *       201:
  *         description: Le game a été créé avec succès
@@ -63,7 +68,7 @@ router.get('/', async (req, res) => {
 
 // Route pour créer un nouveau Game
 router.post('/', async (req, res) => {
-    const { id_user } = req.body;
+    const { user } = req.body;
 
     try {
         // Récupérer tous les personnages
@@ -77,7 +82,7 @@ router.post('/', async (req, res) => {
 
         // Créez un nouveau Game
         const newGame = await Game.create({
-            id_user: id_user,
+            user: user,
             id_character: randomCharacter.id
         });
 

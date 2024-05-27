@@ -1,8 +1,5 @@
-// models/game.js
-
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/database');
-const User = require('./user'); // Importez le modèle User
 const Character = require('./character'); // Importez le modèle Character
 
 class Game extends Model {}
@@ -14,9 +11,9 @@ Game.init({
         autoIncrement: true,
         allowNull: false
     },
-    id_user: {
-        type: DataTypes.INTEGER,
-        allowNull: true
+    user: {
+        type: DataTypes.STRING,
+        allowNull: false
     },
     id_character: {
         type: DataTypes.INTEGER,
@@ -32,7 +29,6 @@ Game.init({
 });
 
 // Définissez les associations entre les modèles
-Game.belongsTo(User, { foreignKey: 'id_user' }); // Un jeu appartient à un utilisateur
 Game.belongsTo(Character, { foreignKey: 'id_character' }); // Un jeu appartient à un personnage
 
 module.exports = Game;
