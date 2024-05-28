@@ -13,6 +13,9 @@ const charactersRouter = require('./routes/character');
 const tryRouter = require('./routes/try');
 const gameRouter = require('./routes/game');
 
+// Models and Associations
+const setupAssociations = require('./models/associations');
+
 const app = express();
 
 // Utiliser cors
@@ -43,8 +46,11 @@ app.use('/games', gameRouter);
 // Swagger documentation
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
+// Setup associations
+setupAssociations();
+
 // Sync models with database
-sequelize.sync({update:true}).then(() => {
+sequelize.sync({}).then(() => {
     console.log('Tables synchronisées avec succès.');
 }).catch(err => {
     console.error('Erreur lors de la synchronisation des tables :', err);

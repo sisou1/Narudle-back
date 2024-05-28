@@ -211,6 +211,7 @@ router.get('/:id/tries', async (req, res) => {
         const game = await Game.findByPk(id, {
             include: [{
                 model: Try,
+                as: 'tries', // Utilisation de l'alias défini dans l'association
                 include: [Character]
             }]
         });
