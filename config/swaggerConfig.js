@@ -122,6 +122,46 @@ const swaggerOptions = {
                         }
                     }
                 }
+            },
+            '/games/{id}/end': {
+                patch: {
+                    summary: 'Mettre à jour la valeur end d\'un game',
+                    tags: ['Games'],
+                    parameters: [
+                        {
+                            name: 'id',
+                            in: 'path',
+                            required: true,
+                            schema: {
+                                type: 'integer'
+                            },
+                            description: 'ID du jeu'
+                        }
+                    ],
+                    responses: {
+                        200: {
+                            description: 'Le jeu a été mis à jour avec succès',
+                            content: {
+                                'application/json': {
+                                    schema: {
+                                        type: 'object',
+                                        properties: {
+                                            message: {
+                                                type: 'string'
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        404: {
+                            description: 'Jeu non trouvé'
+                        },
+                        500: {
+                            description: 'Une erreur est survenue lors de la mise à jour du jeu'
+                        }
+                    }
+                }
             }
         }
     },

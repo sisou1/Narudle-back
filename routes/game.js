@@ -46,22 +46,28 @@ router.get('/', async (req, res) => {
  *     tags: [Games]
  *     requestBody:
  *       required: true
- *       content: {
- *         application/json: {
- *           schema: {
- *             type: object,
- *             properties: {
- *               user: {
- *                 type: string,
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               user:
+ *                 type: string
  *                 description: "Nom de l'utilisateur"
- *               }
- *             }
- *           }
- *         }
- *       }
  *     responses:
  *       201:
  *         description: Le game a été créé avec succès
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 characterName:
+ *                   type: string
+ *                   description: "Le nom du personnage choisi"
+ *                 gameId:
+ *                   type: integer
+ *                   description: "L'ID du jeu créé"
  *       500:
  *         description: Une erreur est survenue lors de la création du game
  */
@@ -87,11 +93,60 @@ router.post('/', async (req, res) => {
             end: false // Initialement, la partie n'est pas terminée
         });
 
-        // Retourner le nom du personnage choisi
-        res.status(201).json({ characterName: randomCharacter.name });
+        // Retourner le nom du personnage choisi et l'ID du jeu créé
+        res.status(201).json({ characterName: randomCharacter.name, gameId: newGame.id });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'An error occurred while creating the Game' });
+    }
+});
+
+/**
+ * @swagger
+ * /games/{id}/end:
+ *   patch:
+ *     summary: Mettre à jour la valeur end d'un game
+ *     tags: [Games]
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID du jeu
+ *     responses:
+ *       200:
+ *         description: Le jeu a été mis à jour avec succès
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *       404:
+ *         description: Jeu non trouvé
+ *       500:
+ *         description: Une erreur est survenue lors de la mise à jour du jeu
+ */
+
+// Route pour mettre à jour la valeur end d'un Game
+router.patch('/:id/end', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const game = await Game.findByPk(id);
+        if (!game) {
+            return res.status(404).json({ error: 'Game not found' });
+        }
+
+        game.end = true;
+        await game.save();
+
+        res.status(200).json({ message: 'Game updated successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'An error occurred while updating the Game' });
     }
 });
 
