@@ -1,5 +1,3 @@
-// models/try.js
-
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/database');
 const Game = require('./game'); // Importez le modèle Game

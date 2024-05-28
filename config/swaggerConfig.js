@@ -76,6 +76,23 @@ const swaggerOptions = {
                             description: 'Indique si la partie est terminée'
                         }
                     }
+                },
+                Try: {
+                    type: 'object',
+                    properties: {
+                        id: {
+                            type: 'integer',
+                            description: 'ID de la tentative'
+                        },
+                        id_game: {
+                            type: 'integer',
+                            description: 'ID du jeu'
+                        },
+                        id_character: {
+                            type: 'integer',
+                            description: 'ID du personnage'
+                        }
+                    }
                 }
             }
         },
@@ -159,6 +176,44 @@ const swaggerOptions = {
                         },
                         500: {
                             description: 'Une erreur est survenue lors de la mise à jour du jeu'
+                        }
+                    }
+                }
+            },
+            '/games/{id}/tries': {
+                get: {
+                    summary: 'Récupérer toutes les tentatives d\'un jeu',
+                    tags: ['Games'],
+                    parameters: [
+                        {
+                            name: 'id',
+                            in: 'path',
+                            required: true,
+                            schema: {
+                                type: 'integer'
+                            },
+                            description: 'ID du jeu'
+                        }
+                    ],
+                    responses: {
+                        200: {
+                            description: 'La liste des tentatives',
+                            content: {
+                                'application/json': {
+                                    schema: {
+                                        type: 'array',
+                                        items: {
+                                            $ref: '#/components/schemas/Try'
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        404: {
+                            description: 'Jeu non trouvé'
+                        },
+                        500: {
+                            description: 'Une erreur est survenue lors de la récupération des tentatives'
                         }
                     }
                 }

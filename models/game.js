@@ -1,6 +1,7 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/database');
 const Character = require('./character'); // Importez le modèle Character
+const Try = require('./try'); // Importez le modèle Try
 
 class Game extends Model {}
 
@@ -35,5 +36,6 @@ Game.init({
 
 // Définissez les associations entre les modèles
 Game.belongsTo(Character, { foreignKey: 'id_character' }); // Un jeu appartient à un personnage
+Game.hasMany(Try, { foreignKey: 'id_game' }); // Un jeu a plusieurs tries
 
 module.exports = Game;
