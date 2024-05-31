@@ -312,4 +312,22 @@ router.get('/:id/tries', async (req, res) => {
     }
 });
 
+// Ajouter cette route pour vérifier une partie non terminée
+router.get('/user/:userId', async (req, res) => {
+    const { userId } = req.params;
+    try {
+        const game = await Game.findOne({
+            where: { user: userId, end: false },
+            include: [{ model: Character }]
+        });
+        if (!game) {
+            return res.status(404).json({ error: 'No unfinished game found' });
+        }
+        res.status(200).json(game);
+    } catch (error) {
+        console.error('Error fetching unfinished game:', error);
+        res.status(500).json({ error: 'An error occurred while fetching the game' });
+    }
+});
+
 module.exports = router;
