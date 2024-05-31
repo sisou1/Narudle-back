@@ -91,6 +91,48 @@ const swaggerOptions = {
                         id_character: {
                             type: 'integer',
                             description: 'ID du personnage'
+                        },
+                        createdAt: {
+                            type: 'string',
+                            format: 'date-time',
+                            description: 'Date de création de la tentative'
+                        },
+                        updatedAt: {
+                            type: 'string',
+                            format: 'date-time',
+                            description: 'Date de mise à jour de la tentative'
+                        },
+                        Character: {
+                            $ref: '#/components/schemas/Character'
+                        },
+                        essaie: {
+                            type: 'object',
+                            properties: {
+                                genre: {
+                                    type: 'string',
+                                    description: 'Le résultat de la comparaison pour le genre'
+                                },
+                                affiliations: {
+                                    type: 'string',
+                                    description: 'Le résultat de la comparaison pour les affiliations'
+                                },
+                                rang: {
+                                    type: 'string',
+                                    description: 'Le résultat de la comparaison pour le rang'
+                                },
+                                chakra: {
+                                    type: 'string',
+                                    description: 'Le résultat de la comparaison pour le chakra'
+                                },
+                                attributs: {
+                                    type: 'string',
+                                    description: 'Le résultat de la comparaison pour les attributs'
+                                },
+                                arc: {
+                                    type: 'string',
+                                    description: 'Le résultat de la comparaison pour l\'arc'
+                                }
+                            }
                         }
                     }
                 }
@@ -203,7 +245,63 @@ const swaggerOptions = {
                                     schema: {
                                         type: 'array',
                                         items: {
-                                            $ref: '#/components/schemas/Try'
+                                            type: 'object',
+                                            properties: {
+                                                id: {
+                                                    type: 'integer',
+                                                    description: 'ID de la tentative'
+                                                },
+                                                id_game: {
+                                                    type: 'integer',
+                                                    description: 'ID du jeu'
+                                                },
+                                                id_character: {
+                                                    type: 'integer',
+                                                    description: 'ID du personnage'
+                                                },
+                                                createdAt: {
+                                                    type: 'string',
+                                                    format: 'date-time',
+                                                    description: 'Date de création de la tentative'
+                                                },
+                                                updatedAt: {
+                                                    type: 'string',
+                                                    format: 'date-time',
+                                                    description: 'Date de mise à jour de la tentative'
+                                                },
+                                                Character: {
+                                                    $ref: '#/components/schemas/Character'
+                                                },
+                                                essaie: {
+                                                    type: 'object',
+                                                    properties: {
+                                                        genre: {
+                                                            type: 'string',
+                                                            description: 'Le résultat de la comparaison pour le genre'
+                                                        },
+                                                        affiliations: {
+                                                            type: 'string',
+                                                            description: 'Le résultat de la comparaison pour les affiliations'
+                                                        },
+                                                        rang: {
+                                                            type: 'string',
+                                                            description: 'Le résultat de la comparaison pour le rang'
+                                                        },
+                                                        chakra: {
+                                                            type: 'string',
+                                                            description: 'Le résultat de la comparaison pour le chakra'
+                                                        },
+                                                        attributs: {
+                                                            type: 'string',
+                                                            description: 'Le résultat de la comparaison pour les attributs'
+                                                        },
+                                                        arc: {
+                                                            type: 'string',
+                                                            description: 'Le résultat de la comparaison pour l\'arc'
+                                                        }
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
                                 }

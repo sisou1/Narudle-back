@@ -196,7 +196,48 @@ router.delete('/', async (req, res) => {
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/Try'
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                     description: ID de la tentative
+ *                   id_game:
+ *                     type: integer
+ *                     description: ID du jeu
+ *                   id_character:
+ *                     type: integer
+ *                     description: ID du personnage
+ *                   createdAt:
+ *                     type: string
+ *                     format: date-time
+ *                     description: Date de création de la tentative
+ *                   updatedAt:
+ *                     type: string
+ *                     format: date-time
+ *                     description: Date de mise à jour de la tentative
+ *                   Character:
+ *                     $ref: '#/components/schemas/Character'
+ *                   essaie:
+ *                     type: object
+ *                     properties:
+ *                       genre:
+ *                         type: string
+ *                         description: Le résultat de la comparaison pour le genre
+ *                       affiliations:
+ *                         type: string
+ *                         description: Le résultat de la comparaison pour les affiliations
+ *                       rang:
+ *                         type: string
+ *                         description: Le résultat de la comparaison pour le rang
+ *                       chakra:
+ *                         type: string
+ *                         description: Le résultat de la comparaison pour le chakra
+ *                       attributs:
+ *                         type: string
+ *                         description: Le résultat de la comparaison pour les attributs
+ *                       arc:
+ *                         type: string
+ *                         description: Le résultat de la comparaison pour l'arc
  *       404:
  *         description: Jeu non trouvé
  *       500:
@@ -211,8 +252,11 @@ router.get('/:id/tries', async (req, res) => {
         const game = await Game.findByPk(id, {
             include: [{
                 model: Try,
-                as: 'tries', // Utilisation de l'alias défini dans l'association
-                include: [Character]
+                as: 'tries',
+                include: [{
+                    model: Character,
+                    as: 'Character'
+                }]
             }]
         });
 
@@ -220,7 +264,48 @@ router.get('/:id/tries', async (req, res) => {
             return res.status(404).json({ error: 'Game not found' });
         }
 
-        res.status(200).json(game.tries);
+        const gameCharacter = await Character.findOne({ where: { id: game.id_character } });
+        if (!gameCharacter) {
+            return res.status(404).json({ error: 'Game character not found' });
+        }
+
+        const triesWithDetails = await Promise.all(game.tries.map(async (tryInstance) => {
+            const tryCharacter = tryInstance.Character;
+
+            if (!tryCharacter) {
+                return null;
+            }
+
+            const compareAttributes = (attr1, attr2) => {
+                if (attr1 === attr2) return 'ok';
+                const set1 = new Set(attr1.split(','));
+                const set2 = new Set(attr2.split(','));
+                const intersection = new Set([...set1].filter(x => set2.has(x)));
+                if (intersection.size > 0) return 'partiel';
+                return 'faux';
+            };
+
+            const essaie = {
+                genre: gameCharacter.genre === tryCharacter.genre ? 'ok' : 'faux',
+                affiliations: compareAttributes(gameCharacter.affiliations, tryCharacter.affiliations),
+                rang: gameCharacter.rang === tryCharacter.rang ? 'ok' : 'faux',
+                chakra: compareAttributes(gameCharacter.chakra, tryCharacter.chakra),
+                attributs: compareAttributes(gameCharacter.attributs, tryCharacter.attributs),
+                arc: gameCharacter.arc === tryCharacter.arc ? 'ok' : 'faux'
+            };
+
+            return {
+                id: tryInstance.id,
+                id_game: tryInstance.id_game,
+                id_character: tryInstance.id_character,
+                createdAt: tryInstance.createdAt,
+                updatedAt: tryInstance.updatedAt,
+                Character: tryCharacter,
+                essaie: essaie
+            };
+        }));
+
+        res.status(200).json(triesWithDetails.filter(detail => detail !== null));
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'An error occurred while fetching tries' });
